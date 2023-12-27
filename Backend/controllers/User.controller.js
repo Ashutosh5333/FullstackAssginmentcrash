@@ -1,7 +1,9 @@
 const catchAsynErros = require("../middleware/catchError");
 const { UserModel } = require("../models/User.model");
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+
 const UserRegister = catchAsynErros(async (req, res, next) => {
   const { email, password, username, DateofBirth, location } = req.body;
 
@@ -11,15 +13,15 @@ const UserRegister = catchAsynErros(async (req, res, next) => {
     if (userPresent) {
       return res.status(400).json({ msg: "User is already present" });
     }
-    bcrypt.hash(password,4,async(err,hash)=>{
-       if(err){
-        console.log(err)
-        return res.status(500).json({msg:"Error in hashing password"})
-       }
-       try {
+    bcrypt.hash(password, 4, async (err, hash) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Error in hashing password" });
+      }
+      try {
         const NewUser = new UserModel({
           email,
-          password:hash,
+          password: hash,
           username,
           DateofBirth,
           location,
@@ -33,8 +35,7 @@ const UserRegister = catchAsynErros(async (req, res, next) => {
           .status(500)
           .json({ msg: "Something went wrong, please try again later" });
       }
-    })
-   
+    });
   } catch (error) {
     console.error("error form 58", error);
     res
@@ -43,7 +44,6 @@ const UserRegister = catchAsynErros(async (req, res, next) => {
   }
 });
 
-
 const loginUser = catchAsynErros(async (req, res) => {
   const { email, password } = req.body;
 
@@ -51,7 +51,7 @@ const loginUser = catchAsynErros(async (req, res) => {
     const user = await UserModel.findOne({ email });
     //  console.log("userrr",user)
     if (!user) {
-      return res.status(404).send({msg:"User not registered"});
+      return res.status(404).send({ msg: "User not registered" });
     }
     const hashedPassword = user.password;
     if (!hashedPassword) {
@@ -60,11 +60,25 @@ const loginUser = catchAsynErros(async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
     if (passwordMatch) {
-      var older_token = jwt.sign({userId:user._id},  'shhhhh');
+      var older_token = jwt.sign(
+        {
+          userId: user._id,
+        },
+        "shhhhh"
+      );
+      const logData = `User logged in - Username: ${user.username}, Email: ${user.email}, Role: ${user.role}\n`;
+
+      fs.appendFile("log.txt", logData, (err) => {
+        if (err) {
+          console.error("Error logging user details:", err);
+        } else {
+          console.log("User details logged successfully.");
+        }
+      });
       return res.json({
         msg: "Login successful",
         data: {
-          token:older_token,
+          token: older_token,
           name: user.username,
           email: user.email,
           _id: user._id,
@@ -79,5 +93,4 @@ const loginUser = catchAsynErros(async (req, res) => {
   }
 });
 
-
-module.exports = { UserRegister,loginUser };
+module.exports = { UserRegister, loginUser };

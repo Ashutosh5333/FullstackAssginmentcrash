@@ -22,8 +22,10 @@ const UserSchema = new mongoose.Schema({
   DateofBirth: {
     type: String,
   },
-  Role: {
+  role: {
     type: String,
+    enum: ["Admin", "Explorer"], 
+    default: "Explorer", 
   },
   location: {
     type: String,
