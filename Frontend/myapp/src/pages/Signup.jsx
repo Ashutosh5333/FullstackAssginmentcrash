@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {  Button,  Card,  CardBody,  Input,  InputGroup,  InputLeftElement,  InputRightElement,  VStack,  useColorModeValue,useToast,} from "@chakra-ui/react";
-import { CiUser } from "react-icons/ci";
+import { CiLocationOn, CiUser } from "react-icons/ci";
 import { EmailIcon, UnlockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
 import { Signupdata } from "../Redux/AuthReducer/action";
-
+import { SlCalender } from "react-icons/sl";
 const Signup = () => {
   const colorScheme = useColorModeValue("blue", "green");
   const [show, setShow] = useState(false);
@@ -13,7 +13,7 @@ const Signup = () => {
   const toast = useToast();
 
   const [post, SetPost] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -56,7 +56,7 @@ const Signup = () => {
 
     }
 
-  
+  console.log("postt",post)
   const handleClickShow = () => {
     setShow(!show);
   };
@@ -78,7 +78,7 @@ const Signup = () => {
               <Input
                 placeholder="Name*"
                 type="name"
-                name="name"
+                name="username"
                 onChange={handleChange}
                 
                 size="lg"
@@ -101,6 +101,40 @@ const Signup = () => {
                
               />
             </InputGroup>
+            
+      {/* New Location Input */}
+      <InputGroup position="relative">
+        <InputLeftElement
+          pointerEvents="none"
+          position="absolute"
+          top="1"
+          children={<CiLocationOn color="gray.400" boxSize={5} />}
+        />
+        <Input
+          placeholder="Location*"
+          type="text"
+          name="location"
+          size="lg"
+          onChange={handleChange}
+        />
+      </InputGroup>
+
+      {/* New Date of Birth Input */}
+      <InputGroup position="relative">
+        <InputLeftElement
+          pointerEvents="none"
+          position="absolute"
+          top="1"
+          children={<SlCalender color="gray.400" boxSize={5} />}
+        />
+        <Input
+          placeholder="Date of Birth*"
+          type="date"
+          name="DateofBirth"
+          size="lg"
+          onChange={handleChange}
+        />
+      </InputGroup>
 
             <InputGroup position="relative">
               <InputLeftElement

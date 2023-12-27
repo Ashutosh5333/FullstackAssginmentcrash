@@ -81,9 +81,9 @@ const Navbar = () => {
             </Text>
           </Link>
 
-          <Link to={"/user"}>
+          <Link to={"/sign"}>
             <Text fontSize={"1rem"} fontWeight="600">
-                UserList
+                Register
             </Text>
           </Link>
 
