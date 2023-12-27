@@ -1,10 +1,12 @@
 const catchAsyncErrors = require("../middleware/catchError")
 const { SocialModel } = require("../models/social.model");
 
+  /// user find data public
+
 const GetAllSocialpost = catchAsyncErrors(async (req, res) => {
     try {
       const product = await SocialModel.find()
-        .populate("postedby",["name"])
+        .populate("postedby",["username"])
       res.send(product);
     } catch (err) {
       console.log(err);
@@ -12,36 +14,9 @@ const GetAllSocialpost = catchAsyncErrors(async (req, res) => {
     }
     
   });
-  
-  
-  
-  const getAllSocialsinglepost = catchAsyncErrors(async (req, res) => {
-    const prodId = req.params.id;
-   
-    try {
-      const product = await SocialModel.find({  userId: req.userId})
-        .populate("postedby", ["name", "email", "image"])
-        console.log(product)
-      res.send(product);
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Internal Server Error");
-    }
-  });
-  
-  
-  const getMyPost = catchAsyncErrors(async (req, res) => {
-        console.log("userid********",req.userId)
-    try {
-      const productData = await SocialModel.find({ userId: req.userId}).populate("postedby", ["name", "email", "image", "username"]);
-      res.send(productData);
-    } catch (err) {
-      console.log(err);
-      res.send("Not authorized");
-    }
-  });
-  
-  
+
+    /// create post
+
   const createPost = async (req, res) => {
     try {
       const userdata = {
@@ -59,6 +34,39 @@ const GetAllSocialpost = catchAsyncErrors(async (req, res) => {
       res.status(500).json({ message: "Something went wrong" });
     }
   };
+  
+  
+  
+  
+   /// get Alll my post
+  
+  const getMyPost = catchAsyncErrors(async (req, res) => {
+        // console.log("userid********",req.userId)
+    try {
+      const productData = await SocialModel.find({ userId: req.userId})
+      .populate("postedby", ["username", "email", "pic"]);
+      res.send(productData);
+    } catch (err) {
+      console.log(err);
+      res.send("Not authorized");
+    }
+  });
+
+ 
+  // get my single post
+  
+  const getAllSocialsinglepost = catchAsyncErrors(async (req, res) => {
+    const prodId = req.params.id;
+    const userId = req.userId;
+        // console.log("userId",userId)
+    try {
+         const singlepost = await SocialModel.findOne({_id:prodId})
+      res.send(singlepost);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
+  });
   
       /*** Edit post */
   
