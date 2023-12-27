@@ -1,6 +1,7 @@
 const catchAsynErros = require("../middleware/catchError");
 const { UserModel } = require("../models/User.model");
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 const UserRegister = catchAsynErros(async (req, res, next) => {
   const { email, password, username, DateofBirth, location } = req.body;
 
@@ -48,7 +49,7 @@ const loginUser = catchAsynErros(async (req, res) => {
 
   try {
     const user = await UserModel.findOne({ email });
-     console.log("userrr",user)
+    //  console.log("userrr",user)
     if (!user) {
       return res.status(404).send({msg:"User not registered"});
     }
@@ -59,9 +60,11 @@ const loginUser = catchAsynErros(async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
     if (passwordMatch) {
+      var older_token = jwt.sign({userId:user._id},  'shhhhh');
       return res.json({
         msg: "Login successful",
         data: {
+          token:older_token,
           name: user.username,
           email: user.email,
           _id: user._id,

@@ -1,3 +1,4 @@
+const Authenticate = require("./middleware/Authenticate");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -18,7 +19,9 @@ app.get("/", (req, res) => {
 });
 
 const user = require("./routes/user.route");
+const SocialRouter = require("./routes/social.route");
 
 app.use("/user", user);
+app.use("/insta",SocialRouter)
 
 module.exports = app;
