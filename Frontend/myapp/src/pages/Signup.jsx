@@ -16,6 +16,8 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
+    location:"",
+    DateofBirth:""
   });
 
   const handleChange = (e) => {
@@ -23,6 +25,7 @@ const Signup = () => {
     SetPost({ ...post, [name]: value });
   };
  
+console.log("posstttt",post)
 
      const handleSubmit = () => {
         dispatch(Signupdata(post))
@@ -30,7 +33,7 @@ const Signup = () => {
           console.log(res);
           if (
             res.type === "GET_SIGNUP_SUCCESS" &&
-            res.payload.data !== "user is already present"
+            res.payload.data !== "User is already present"
           ) {
             toast({
               position: "top",

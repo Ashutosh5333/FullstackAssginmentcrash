@@ -51,36 +51,24 @@ const Navbar = () => {
         alignItems="center"
         padding="10px"
       >
+      
         <Flex
-          width={{ base: "0", md: "40%", lg: "50%" }}
-          padding="5px"
-          alignItems="center"
-        >
-          <Text ml="10px">
-            <BsSearch />
-          </Text>
-          <Input
-            borderRadius="0px"
-            border="0px"
-            placeholder="Quick Share"
-            
-            variant="unstyled"
-            padding="5px"
-          />
-        </Flex>
-
-        <Flex
-          width={{ base: "", md: "30%", lg: "25%" }}
+          width={{ base: "", md: "100%", lg: "100%" }}
           justifyContent="space-around"
           fontSize="25px"
           gap="5"
         >
           <Link to={"/Createpost"}>
             <Text fontSize={"1rem"} fontWeight="600">
-               Create Post
+               Create 
             </Text>
           </Link>
 
+          <Link to={"/about"}>
+            <Text fontSize={"1rem"} fontWeight="600">
+              About
+            </Text>
+          </Link>
           <Link to={"/sign"}>
             <Text fontSize={"1rem"} fontWeight="600">
                 Register

@@ -121,9 +121,9 @@ const Dashboard = () => {
 
                 <CardFooter>
                   <ButtonGroup spacing="2" justifyItems={"center"}>
-                    {/* <Link to={`/Allpost/${el._id} `}>
+                    <Link to={`/deatil/${el._id} `}>
                       <Button>View</Button>
-                    </Link> */}
+                    </Link>
 
                     <Link to={`/Edit/${el._id}`}>
                       <Button variant="ghost" leftIcon={<CiEdit />}>
