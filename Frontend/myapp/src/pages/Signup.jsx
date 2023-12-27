@@ -17,6 +17,7 @@ const Signup = () => {
     email: "",
     password: "",
     location:"",
+    confirmPassword: "",
     DateofBirth:""
   });
 
@@ -28,6 +29,16 @@ const Signup = () => {
 console.log("posstttt",post)
 
      const handleSubmit = () => {
+      if (post.password !== post.confirmPassword) {
+        toast({
+          position: "top",
+          status: "error",
+          title: "Passwords do not match",
+        });
+        return;
+      }
+
+
         dispatch(Signupdata(post))
         .then((res) => {
           console.log(res);
@@ -105,7 +116,7 @@ console.log("posstttt",post)
               />
             </InputGroup>
             
-      {/* New Location Input */}
+     
       <InputGroup position="relative">
         <InputLeftElement
           pointerEvents="none"
@@ -122,7 +133,7 @@ console.log("posstttt",post)
         />
       </InputGroup>
 
-      {/* New Date of Birth Input */}
+    
       <InputGroup position="relative">
         <InputLeftElement
           pointerEvents="none"
@@ -168,6 +179,36 @@ console.log("posstttt",post)
                 </Button>
               </InputRightElement>
             </InputGroup>
+            <InputGroup position="relative">
+              <InputLeftElement
+                pointerEvents="none"
+                position="absolute"
+                top="1"
+                children={<UnlockIcon color="gray.400" boxSize={5} />}
+              />
+              <Input
+                type={show ? "text" : "password"}
+                placeholder="Confirm Password*"
+                name="confirmPassword"
+                size="lg"
+                onChange={handleChange}
+              />
+              <InputRightElement width="4.5rem" position="absolute" top="1">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  variant="link"
+                  onClick={handleClickShow}
+                >
+                  {show ? (
+                    <ViewOffIcon color="gray.400" boxSize={5} />
+                  ) : (
+                    <ViewIcon color="gray.400" boxSize={5} />
+                  )}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+
             <Button
             onClick={handleSubmit}
               width="100%"

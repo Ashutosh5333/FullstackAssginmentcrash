@@ -42,6 +42,10 @@ const Login = () => {
             "token",
             JSON.stringify(res?.payload?.data?.data?.token)
           );
+          localStorage.setItem(
+            "data",
+            JSON.stringify(res?.payload?.data?.data)
+          );
           toast({
             position: "top",
             status: "success",
